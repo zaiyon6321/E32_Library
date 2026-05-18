@@ -34,6 +34,27 @@ void E32::init (){
 
 }
 
+void E32::init (uint8_t addr_h, uint8_t addr_l, uint8_t chan){
+	
+  addH = addr_h;
+  addL = addr_l;
+
+  channel = chan;
+  
+  pinInit();
+  changeMode(SLEEP);
+  while(!isFree());
+
+  Eserial->write(head);
+  Eserial->write(addH);
+  Eserial->write(addL);
+  Eserial->write(sped);
+  Eserial->write(channel);
+  Eserial->write(option);
+
+  changeMode(NORMAL);
+}
+
 void E32::pinInit (void) const{
   pinMode(m0_pin, OUTPUT);
   pinMode(m1_pin, OUTPUT);
@@ -51,34 +72,27 @@ uint8_t E32::sendTo (uint8_t chan, uint8_t highAddr, uint8_t lowAddr, char * dat
   for(uint8_t i=0; i<size; i++){
     Eserial->write(data[i]);
   }
-  
-  /*
-  sendByte(highAddr);
-  sendByte(lowAddr);
-  sendByte(chan);
-  for(uint8_t i=0; i<size; i++){
-    sendByte(data[i]);
-  }*/
   return 1;
 }
 
 uint8_t E32::sendTo (uint8_t chan, uint8_t highAddr, uint8_t lowAddr, uint8_t data){
+	
   while(!isFree()){
     ;
   }
-  sendByte(highAddr);
-  sendByte(lowAddr);
-  sendByte(chan);
-  sendByte(data);
+  Eserial->wirte(highAddr);
+  Eserial->write(lowAddr);
+  Eserial->write(chan);
+  Eserial->write(data);
   return 1;
 }
 
 uint8_t E32::sendData (uint8_t * data, uint8_t size){
-  /*while(!isFree()){
+  while(!isFree()){
     ;
-  }*/
+  }
   for(uint8_t i=0; i<size; i++){
-    sendByte(data[i]);
+    Eserial->write(data[i]);
   }
   return 1;
 }
