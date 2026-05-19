@@ -80,7 +80,7 @@ uint8_t E32::sendTo (uint8_t chan, uint8_t highAddr, uint8_t lowAddr, uint8_t da
   while(!isFree()){
     ;
   }
-  Eserial->wirte(highAddr);
+  Eserial->write(highAddr);
   Eserial->write(lowAddr);
   Eserial->write(chan);
   Eserial->write(data);
@@ -91,6 +91,7 @@ uint8_t E32::sendData (uint8_t * data, uint8_t size){
   while(!isFree()){
     ;
   }
+  delay(5);
   for(uint8_t i=0; i<size; i++){
     Eserial->write(data[i]);
   }
@@ -98,9 +99,9 @@ uint8_t E32::sendData (uint8_t * data, uint8_t size){
 }
 
 uint8_t E32::sendByte (uint8_t  data){
-	while(!isFree()){
+	/*while(!isFree()){
     ;
-  }
+  }*/
   Eserial->write(data);
   return 1;
 }
@@ -236,7 +237,7 @@ uint8_t E32::changeMode (MODE md){
   while(!isFree()){
     ;
   }
-  delay(5);
+  delay(100);
 
   switch(md){
     case NORMAL:

@@ -60,6 +60,7 @@ class E32{
 
   E32(HardwareSerial * serial,BAUD_RATE baud, AIR_RATE air, uint8_t rx, uint8_t tx, uint8_t m0, uint8_t m1, uint8_t aux);
   void init ();
+  void init (uint8_t addr_h, uint8_t addr_l, uint8_t chan);
   void pinInit (void) const;
   uint8_t sendData (uint8_t * data, uint8_t size);
   uint8_t sendByte (uint8_t  data);
